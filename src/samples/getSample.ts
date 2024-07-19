@@ -14,19 +14,19 @@ const sampleImages: {
   {
     raw: artisticSample,
     src: artisticSample.src,
-    alt: "Artistic sample",
+    alt: "A roaring fire",
     status: "valid",
   },
   {
     raw: newsSample,
     src: newsSample.src,
-    alt: "News sample",
+    alt: "A smoking hillside",
     status: "invalid",
   },
   {
     raw: scientificSample,
     src: scientificSample.src,
-    alt: "Scientific sample",
+    alt: "Charming penguins in Antarctica",
     status: "inconclusive",
   },
 ];
