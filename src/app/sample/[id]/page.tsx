@@ -8,13 +8,20 @@ import {
   getValidateTitle,
   getValidationDescription,
   validate,
+  ValidationStatus,
 } from "@/utils/validation";
 import ValidationDisplay from "@/components/ValidationDisplay";
+import { StaticImageData } from "next/image";
 
 const HEADING = "Sample Image";
 const ARTISTIC_ALT = "Artistic sample";
 
-const sampleImages = [
+const sampleImages: {
+  raw: StaticImageData;
+  src: string;
+  alt: string;
+  status: ValidationStatus;
+}[] = [
   {
     raw: artisticSample,
     src: artisticSample.src,
@@ -36,7 +43,7 @@ const sampleImages = [
 ];
 
 const getSample = (id: string) =>
-  sampleImages[Number(id) % sampleImages.length];
+  sampleImages[(Number(id) % sampleImages.length) - 1];
 
 interface Params {
   params: {
@@ -47,7 +54,7 @@ interface Params {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = params;
   const sample = getSample(id);
-  const status = validate({}, "valid");
+  const status = validate({}, sample.status);
   const title = getValidateTitle(status, ARTISTIC_ALT);
   const description = getValidationDescription(status);
 
@@ -60,7 +67,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       description: description,
       images: [
         {
-          url: `https://c2pa-social-example-next.vercel.app/${sample.src}`,
+          url: sample.src,
           alt: sample.alt,
         },
       ],
@@ -71,7 +78,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       card: "summary_large_image",
       title: title,
       description: description,
-      images: [`https://c2pa-social-example-next.vercel.app/${sample.src}`],
+      images: [sample.src],
     },
   };
 }
