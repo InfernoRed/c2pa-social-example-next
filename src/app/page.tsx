@@ -2,30 +2,34 @@ import type { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import CrPin from "@/assets/cr-pin.svg";
 import artisticSample from "@/samples/artistic-sample.jpeg";
-
-const content = {
-  title: "✅ Verified Image",
-  description: "This is a sample image with a verified pin",
-};
+import {
+  getValidateTitle,
+  getValidationDescription,
+  validate,
+} from "@/utils/validation";
 
 const artisticSampleAlt = "Artistic sample";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const status = validate({}, "valid");
+  const title = getValidateTitle(status, artisticSampleAlt);
+  const description = getValidationDescription(status);
+
   return {
-    title: content.title,
-    description: content.description,
+    title: title,
+    description: description,
     authors: [{ name: "Microsoft", url: "https://microsoft.com" }],
     openGraph: {
-      title: content.title,
-      description: content.description,
+      title: title,
+      description: description,
       images: [{ url: artisticSample.src, alt: artisticSampleAlt }],
       locale: "en_US",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title: content.title,
-      description: content.description,
+      title: title,
+      description: description,
       images: [artisticSample.src],
     },
   };
