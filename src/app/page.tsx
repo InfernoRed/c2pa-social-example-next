@@ -1,46 +1,29 @@
-import type { Metadata } from "next";
-
-import artisticSample from "@/samples/artistic-sample.jpeg";
-import {
-  getValidateTitle,
-  getValidationDescription,
-  validate,
-} from "@/utils/validation";
-import ValidationDisplay from "@/components/ValidationDisplay";
-
-const HEADING = "Summary Card - Large";
-const ARTISTIC_ALT = "Artistic sample";
-
-export async function generateMetadata(): Promise<Metadata> {
-  const status = validate({}, "valid");
-  const title = getValidateTitle(status, ARTISTIC_ALT);
-  const description = getValidationDescription(status);
-
-  return {
-    title: title,
-    description: description,
-    authors: [{ name: "Microsoft", url: "https://microsoft.com" }],
-    openGraph: {
-      title: title,
-      description: description,
-      images: [{ url: artisticSample.src, alt: ARTISTIC_ALT }],
-      locale: "en_US",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: title,
-      description: description,
-      images: [artisticSample.src],
-    },
-  };
-}
-
 export default function Home() {
   return (
     <main className="flex flex-col items-center p-24">
-      <h1 className="text-4xl font-bold my-4">{HEADING}</h1>
-      <ValidationDisplay image={{ src: artisticSample, alt: ARTISTIC_ALT }} />
+      <h1 className="text-4xl font-bold my-4">Welcome</h1>
+      <p className="my-4 max-w-lg">
+        This is a demo of social media images. Select a sample image to view its
+        validation status. Copy and paste into a social media app to test the
+        card display.
+      </p>
+      <ul className="list-disc list-inside">
+        <li className="my-2">
+          <a href="/sample/1" className="text-green-500 hover:text-green-700">
+            ✅ Validated
+          </a>
+        </li>
+        <li className="my-2">
+          <a href="/sample/2" className="text-yellow-500 hover:text-yellow-700">
+            ⚠️ Invalid
+          </a>
+        </li>
+        <li className="my-2">
+          <a href="/sample/3" className="text-orange-500 hover:text-orange-700">
+            ❓Inconclusive
+          </a>
+        </li>
+      </ul>
     </main>
   );
 }

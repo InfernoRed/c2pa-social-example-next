@@ -24,9 +24,9 @@ export const getValidateTitle = (status: ValidationStatus, title: string) => {
     case "invalid":
       return `⚠️ Invalid | ${title}`;
     case "inconclusive":
-      return `⚠️  Inconclusive | ${title}`;
+      return `❓  Inconclusive | ${title}`;
     case "uncertified":
-      return `❓ Uncertified | ${title}`;
+      return `❌ Uncertified | ${title}`;
     default:
       return title;
   }
