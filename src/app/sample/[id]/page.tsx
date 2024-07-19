@@ -1,49 +1,13 @@
 import type { Metadata } from "next";
-
-import artisticSample from "@/samples/artistic-sample.jpeg";
-import newsSample from "@/samples/news-sample.jpg";
-import scientificSample from "@/samples/scientific-sample.jpg";
-
 import {
   getValidateTitle,
   getValidationDescription,
   validate,
-  ValidationStatus,
 } from "@/utils/validation";
 import ValidationDisplay from "@/components/ValidationDisplay";
-import { StaticImageData } from "next/image";
+import { getSample } from "@/samples/getSample";
 
 const HEADING = "Sample Image";
-const ARTISTIC_ALT = "Artistic sample";
-
-const sampleImages: {
-  raw: StaticImageData;
-  src: string;
-  alt: string;
-  status: ValidationStatus;
-}[] = [
-  {
-    raw: artisticSample,
-    src: artisticSample.src,
-    alt: "Artistic sample",
-    status: "valid",
-  },
-  {
-    raw: newsSample,
-    src: newsSample.src,
-    alt: "News sample",
-    status: "invalid",
-  },
-  {
-    raw: scientificSample,
-    src: scientificSample.src,
-    alt: "Scientific sample",
-    status: "inconclusive",
-  },
-];
-
-const getSample = (id: string) =>
-  sampleImages[(Number(id) % sampleImages.length) - 1];
 
 interface Params {
   params: {
@@ -55,13 +19,14 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = params;
   const sample = getSample(id);
   const status = validate({}, sample.status);
-  const title = getValidateTitle(status, ARTISTIC_ALT);
+  const title = getValidateTitle(status, sample.alt);
   const description = getValidationDescription(status);
 
   return {
     title: title,
     description: description,
     authors: [{ name: "Microsoft", url: "https://microsoft.com" }],
+
     openGraph: {
       title: title,
       description: description,
