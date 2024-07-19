@@ -1,6 +1,6 @@
 import Image from "next/image";
-import CrPin from "../assets/cr-pin.svg";
-import artisticSample from "../samples/artistic-sample.jpeg";
+import CrPin from "@/assets/cr-pin.svg";
+import artisticSample from "@/samples/artistic-sample.jpeg";
 
 export default function Home() {
   return (
