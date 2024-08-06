@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@contentauth/toolkit": "^0.11.7",
     "c2pa": "^0.22.6",
     "c2pa-wc": "^0.13.9",
     "next": "14.2.5",
