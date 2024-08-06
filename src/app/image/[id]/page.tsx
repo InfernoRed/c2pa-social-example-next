@@ -6,6 +6,7 @@ import CAISummary from "@/components/CAISummary";
 import { getManifestStore } from "@/services/manifest";
 import getImage from "@/utils/getImage";
 import getMetadata from "@/utils/getMetadata";
+import { notFound } from "next/navigation";
 
 interface Params {
   params: {
@@ -15,12 +16,18 @@ interface Params {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const image = await getImage(params.id);
+  if (!image) {
+    return notFound();
+  }
   const manifestStore = await getManifestStore(image.src, image.mimeType);
   return getMetadata(manifestStore, image.src);
 }
 
 export default async function Home({ params }: Params) {
   const image = await getImage(params.id);
+  if (!image) {
+    return notFound();
+  }
   const manifestStore = await getManifestStore(image.src, image.mimeType);
 
   return (
