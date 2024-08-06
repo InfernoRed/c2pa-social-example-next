@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [{ hostname: "*.public.blob.vercel-storage.com" }],
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
