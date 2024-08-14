@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 import CAIPopover from "@/components/CAIPopover";
 import CAISummary from "@/components/CAISummary";
+import CopyLinkButton from "@/components/CopyLinkButton";
 import { getManifestStore } from "@/services/manifest";
 import getImage from "@/utils/getImage";
 import getMetadata from "@/utils/getMetadata";
-import { notFound } from "next/navigation";
 
 interface Params {
   params: {
@@ -41,6 +42,14 @@ export default async function Home({ params }: Params) {
           fill
         />
       </CAIPopover>
+      <div>
+        <CopyLinkButton
+          text={"Copy Link"}
+          copiedText={"Copied!"}
+          style={{ fontFamily: "__Inter_36bd41" }}
+          className="border border-b-gray-300 min-w-[120px] text-black px-4 py-2 rounded-lg"
+        />
+      </div>
       <CAISummary
         manifestStore={manifestStore}
         className="border border-b-gray-300 rounded-xl"
