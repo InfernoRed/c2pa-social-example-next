@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [{ hostname: "*.public.blob.vercel-storage.com" }],
+    remotePatterns: [
+      {
+        hostname: "lh3.googleusercontent.com",
+      },
+      {
+        hostname: "drive.google.com",
+      },
+    ],
   },
   webpack: (config) => {
     config.module.rules.push({
