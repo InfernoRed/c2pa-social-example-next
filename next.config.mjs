@@ -10,6 +10,13 @@ const nextConfig = {
       },
     ],
   },
+  redirects: async () => [
+    {
+      source: "/",
+      destination: "/files",
+      permanent: true,
+    },
+  ],
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
