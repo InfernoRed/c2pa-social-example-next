@@ -2,16 +2,28 @@
 
 [![Example][example-live-badge]][example-live] [![Vercel Project][vercel-project-badge]][vercel-project]
 
-An example application to show how [c2pa] could be shown in social platforms that have not fully implemented [L1 or L2 UX for c2pa][c2pa-ux]. 
+An example application to show how [c2pa] could be shown in social platforms that have not fully implemented [L1 or L2 UX for c2pa][c2pa-ux]. This example uses Google Drive.
 
 ## 🚀 Quick Start
+
+### Step 0
+
+1. Setup a Content Integrity API
+2. [Enable Google Drive API in Google Cloud Console][google-drive-api]
+3. [Create a public Google Drive folder][google-drive-folder]
+
 
 ### Step 1
 
 Add a `.env.local`
 
 ```bash
+# Content Integrity
 CONTENT_INTEGRITY_API_URL="YOUR API URL"
+
+# Google Drive
+GOOGLE_DRIVE_API_KEY="YOUR GOOGLE DRIVE API KEY";
+GOOGLE_DRIVE_FOLDER_ID="YOUR GOOGLE FOLDER ID";
 ```
 
 ### Step 2
@@ -51,7 +63,7 @@ This is a [Next.js][next-js] project bootstrapped with [`create-next-app`][creat
 
 ### Stack
 - [Vercel][vercel]
-- [NextJS 13][next-js]
+- [NextJS 13][next-js] using App Router
 - [React][react]
 - [Tailwind CSS][tailwind-css]
 
@@ -79,3 +91,5 @@ Use this button to deploy it on Vercel
 [example-live]: https://c2pa-social-example-next.vercel.app/
 [vercel-project-badge]: https://img.shields.io/badge/project-open-blue?style=for-the-badge&logo=vercel
 [vercel-project]: https://vercel.com/inferno-red-technology/c2pa-social-example-next
+[google-drive-api]: https://developers.google.com/drive/api/guides/enable-sdk
+[google-drive-folder]: https://support.google.com/drive/answer/7166529
