@@ -1,4 +1,4 @@
-// Server Only
+import "server-only";
 
 import { ManifestStore } from "@contentauth/toolkit";
 import getBlob from "@/utils/getBlob";
