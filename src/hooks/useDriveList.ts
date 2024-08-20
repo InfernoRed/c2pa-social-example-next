@@ -14,6 +14,7 @@ const DEFAULT_SORT: SortOption = "name";
 const SEARCH_DEBOUNCE_TIME = 2000;
 
 export default function useDriveList() {
+  const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<GoogleDriveFile[]>([]);
   const [error, setError] = useState<string>();
   const [searchTerm, setSearchTerm] = useState<string>();
@@ -24,6 +25,7 @@ export default function useDriveList() {
   useEffect(() => {
     const getFiles = async () => {
       try {
+        setLoading(true);
         const queryParams = new URLSearchParams();
         if (hiddenSearchTerm) queryParams.append("search", hiddenSearchTerm);
         if (filter && filter !== "all")
@@ -39,6 +41,8 @@ export default function useDriveList() {
         setError(undefined);
       } catch (error) {
         setError((error as Error)?.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -68,6 +72,7 @@ export default function useDriveList() {
   };
 
   return {
+    loading,
     searchTerm,
     handleSearch,
     filter,
