@@ -22,8 +22,10 @@ const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL
   : process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  console.info("BEFORE GOOGLE DRIVE FETCH");
   const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
 
+  console.info("RESPONSE RECEIVED");
   const file = await response.json();
   if (!file || file.error) {
     return notFound();
@@ -33,6 +35,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     throw new Error("Unsupported file type", { cause: file.mimeType });
   }
 
+  console.info("BEFORE MANIFEST FETCH");
   const manifestStore = await getManifestStore(
     file.webContentLink,
     file.mimeType
@@ -42,8 +45,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function FilePage({ params }: Params) {
+  console.info("PAGE: BEFORE GOOGLE DRIVE FETCH");
   const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
 
+  console.info("PAGE: RESPONSE RECEIVED");
   const file = await response.json();
   if (!file) {
     return notFound();
@@ -53,6 +58,7 @@ export default async function FilePage({ params }: Params) {
     throw new Error("Unsupported file type", { cause: file.mimeType });
   }
 
+  console.info("BEFORE MANIFEST FETCH");
   const manifestStore = await getManifestStore(
     file.webContentLink,
     file.mimeType
