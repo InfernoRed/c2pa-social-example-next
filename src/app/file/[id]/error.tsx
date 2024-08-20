@@ -10,6 +10,7 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  console.info(error);
   const content =
     error.cause === errorCauses.MEDIA_UNSUPPORTED
       ? { code: 415, text: "Unsupported Media Type" }
