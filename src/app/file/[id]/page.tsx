@@ -1,3 +1,5 @@
+"use server";
+
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -6,7 +8,7 @@ import CAIPopover from "@/components/CAIPopover";
 import CAISummary from "@/components/CAISummary";
 import CopyLinkButton from "@/components/CopyLinkButton";
 import { getManifestStore } from "@/services/manifest";
-import getImage from "@/utils/getImage";
+import { getFile } from "@/services/file";
 import getMetadata from "@/utils/getMetadata";
 
 interface Params {
@@ -16,20 +18,23 @@ interface Params {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const image = await getImage(params.id);
-  if (!image) {
-    return notFound();
-  }
-  const manifestStore = await getManifestStore(image.src, image.mimeType);
-  return getMetadata(manifestStore, image.src);
+  const file = await getFile(params.id);
+
+  const manifestStore = await getManifestStore(
+    file.webContentLink,
+    file.mimeType
+  );
+
+  return getMetadata(manifestStore, file.thumbnailLink);
 }
 
-export default async function Home({ params }: Params) {
-  const image = await getImage(params.id);
-  if (!image) {
-    return notFound();
-  }
-  const manifestStore = await getManifestStore(image.src, image.mimeType);
+export default async function FilePage({ params }: Params) {
+  const file = await getFile(params.id);
+
+  const manifestStore = await getManifestStore(
+    file.webContentLink,
+    file.mimeType
+  );
 
   return (
     <main className="flex flex-col items-center p-24 gap-4">
@@ -37,18 +42,23 @@ export default async function Home({ params }: Params) {
         <Image
           priority
           className="object-fit rounded-xl"
-          alt={image.alt}
-          src={image.src}
+          alt={file.alt}
+          src={file.webContentLink}
           fill
         />
       </CAIPopover>
-      <div>
+      <div className="flex flex-row items-center gap-2">
         <CopyLinkButton
           text={"Copy Link"}
           copiedText={"Copied!"}
-          style={{ fontFamily: "__Inter_36bd41" }}
-          className="border border-b-gray-300 min-w-[120px] text-black px-4 py-2 rounded-lg"
+          className="font-semibold border border-b-gray-300 min-w-[100px] gray-900 px-2 py-1 rounded-lg"
         />
+        <a
+          href={`https://contentintegrity.microsoft.com/check?source=${file.webContentLink}`}
+          className="font-semibold border text-center border-b-gray-300 min-w-[100px] gray-900 px-2 py-1 rounded-lg"
+        >
+          Verify
+        </a>
       </div>
       <CAISummary
         manifestStore={manifestStore}

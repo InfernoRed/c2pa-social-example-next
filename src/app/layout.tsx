@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Arimo } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const arimo = Arimo({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "C2PA Social Example",
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ height: "100vh" }} className={inter.className}>
+      <body style={{ height: "100vh" }} className={arimo.className}>
         {children}
       </body>
     </html>
