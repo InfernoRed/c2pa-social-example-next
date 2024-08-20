@@ -17,8 +17,11 @@ interface Params {
   };
 }
 
+const BASE_URL =
+  process.env.NEXT_PUBLIC_VERCEL_URL || process.env.NEXT_PUBLIC_BASE_URL;
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const response = await fetch(`api/file/${params.id}`);
+  const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
 
   const file = await response.json();
   if (!file || file.error) {
@@ -38,7 +41,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function FilePage({ params }: Params) {
-  const response = await fetch(`/api/file/${params.id}`);
+  const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
 
   const file = await response.json();
   if (!file) {
