@@ -13,6 +13,7 @@ export interface CAIPopoverProps {
   summaryClass?: string;
   manifestStore?: ManifestStore;
   children?: ReactNode;
+  disablePopover?: boolean;
 }
 
 export default function CAIPopover({
@@ -21,6 +22,7 @@ export default function CAIPopover({
   summaryClass,
   manifestStore,
   children,
+  disablePopover,
 }: CAIPopoverProps) {
   useWebComponents();
   const enableManifestLogs =
@@ -43,15 +45,17 @@ export default function CAIPopover({
               },
             }
           }
-          interactive
+          interactive={!disablePopover}
           class={popoverClass}
         >
           <cai-indicator slot="trigger" />
-          <cai-manifest-summary
-            class={summaryClass}
-            ref={summaryRef}
-            slot="content"
-          />
+          {!disablePopover && (
+            <cai-manifest-summary
+              class={summaryClass}
+              ref={summaryRef}
+              slot="content"
+            />
+          )}
         </cai-popover>
       )}
     </div>
