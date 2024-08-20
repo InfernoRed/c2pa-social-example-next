@@ -17,8 +17,9 @@ interface Params {
   };
 }
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_VERCEL_URL || process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL
+  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  : process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
