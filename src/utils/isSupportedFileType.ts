@@ -3,6 +3,6 @@
  * @param mimeType
  * @returns
  */
-export default function isSupportedFileType(mimeType: string): boolean {
-  return mimeType.startsWith("image/"); // Temporary implementation
+export default function isSupportedFileType(mimeType?: string): boolean {
+  return !mimeType || mimeType.startsWith("image/"); // Temporary implementation
 }
