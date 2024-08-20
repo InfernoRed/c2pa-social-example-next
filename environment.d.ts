@@ -2,7 +2,10 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NEXT_PUBLIC_BASE_URL: string;
+
+      // Vercel
       NEXT_PUBLIC_VERCEL_URL: string;
+      VERCEL_API_TOKEN: string;
 
       // Content Integrity
       CONTENT_INTEGRITY_API_URL: string;

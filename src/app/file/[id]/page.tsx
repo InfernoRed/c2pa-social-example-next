@@ -21,9 +21,15 @@ const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   : process.env.NEXT_PUBLIC_BASE_URL;
 
+const API_TOKEN = process.env.VERCEL_API_TOKEN;
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   console.info("BEFORE GOOGLE DRIVE FETCH");
-  const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
+  const response = await fetch(`${BASE_URL}/api/file/${params.id}`, {
+    headers: {
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+  });
 
   console.info("RESPONSE RECEIVED");
   const file = await response.json();
@@ -46,29 +52,13 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function FilePage({ params }: Params) {
   console.info("PAGE: BEFORE GOOGLE DRIVE FETCH");
-  const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
+  const response = await fetch(`${BASE_URL}/api/file/${params.id}`, {
+    headers: {
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+  });
 
   console.info("PAGE: RESPONSE RECEIVED");
-
-  const contentType = response.headers.get("Content-Type");
-
-  if (contentType && contentType.includes("application/json")) {
-    try {
-      const file = await response.json();
-      console.log("Parsed JSON:", file);
-    } catch (error) {
-      console.error("Failed to parse JSON:", error);
-    }
-  } else if (contentType && contentType.includes("text/html")) {
-    try {
-      const htmlContent = await response.text();
-      console.log("HTML Content:", htmlContent);
-    } catch (error) {
-      console.error("Failed to retrieve HTML content:", error);
-    }
-  } else {
-    console.error("Unexpected content type:", contentType);
-  }
 
   const file = await response.json();
   if (!file) {
