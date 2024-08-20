@@ -19,9 +19,9 @@ export async function GET(
         "id, name, mimeType, webViewLink, webContentLink, thumbnailLink, size, createdTime, modifiedTime, description, owners",
     });
 
-    if (response.status !== 200) {
-      throw Error(response.statusText, { cause: response.status });
-    }
+    // if (response.status !== 200) {
+    //   throw Error(response.statusText, { cause: response.status });
+    // }
 
     return NextResponse.json(response.data);
   } catch (error) {
