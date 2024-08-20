@@ -5,7 +5,6 @@ declare global {
 
       // Vercel
       NEXT_PUBLIC_VERCEL_URL: string;
-      VERCEL_API_TOKEN: string;
 
       // Content Integrity
       CONTENT_INTEGRITY_API_URL: string;

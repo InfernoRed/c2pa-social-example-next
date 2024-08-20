@@ -10,6 +10,7 @@ import CopyLinkButton from "@/components/CopyLinkButton";
 import { getManifestStore } from "@/services/manifest";
 import getMetadata from "@/utils/getMetadata";
 import isSupportedFileType from "@/utils/isSupportedFileType";
+import { errorCauses } from "@/app/lib/definitions";
 
 interface Params {
   params: {
@@ -21,27 +22,21 @@ const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   : process.env.NEXT_PUBLIC_BASE_URL;
 
-const API_TOKEN = process.env.VERCEL_API_TOKEN;
-
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  console.info("BEFORE GOOGLE DRIVE FETCH");
-  const response = await fetch(`${BASE_URL}/api/file/${params.id}`, {
-    headers: {
-      Authorization: `Bearer ${API_TOKEN}`,
-    },
-  });
+  const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
 
-  console.info("RESPONSE RECEIVED");
   const file = await response.json();
+
   if (!file || file.error) {
     return notFound();
   }
 
   if (!isSupportedFileType(file.mimeType)) {
-    throw new Error("Unsupported file type", { cause: file.mimeType });
+    throw new Error("Unsupported file type", {
+      cause: errorCauses.MEDIA_UNSUPPORTED,
+    });
   }
 
-  console.info("BEFORE MANIFEST FETCH");
   const manifestStore = await getManifestStore(
     file.webContentLink,
     file.mimeType
@@ -51,14 +46,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function FilePage({ params }: Params) {
-  console.info("PAGE: BEFORE GOOGLE DRIVE FETCH");
-  const response = await fetch(`${BASE_URL}/api/file/${params.id}`, {
-    headers: {
-      Authorization: `Bearer ${API_TOKEN}`,
-    },
-  });
-
-  console.info("PAGE: RESPONSE RECEIVED");
+  const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
 
   const file = await response.json();
   if (!file) {
@@ -66,10 +54,11 @@ export default async function FilePage({ params }: Params) {
   }
 
   if (!isSupportedFileType(file.mimeType)) {
-    throw new Error("Unsupported file type", { cause: file.mimeType });
+    throw new Error("Unsupported file type", {
+      cause: errorCauses.MEDIA_UNSUPPORTED,
+    });
   }
 
-  console.info("BEFORE MANIFEST FETCH");
   const manifestStore = await getManifestStore(
     file.webContentLink,
     file.mimeType

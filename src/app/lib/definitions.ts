@@ -30,3 +30,7 @@ export type SortOption = (typeof sortOptions)[number];
 export const mimeTypeFilters = ["image", "video", "audio", "all"] as const;
 
 export type MimeTypeFilter = (typeof mimeTypeFilters)[number];
+
+export const errorCauses = {
+  MEDIA_UNSUPPORTED: "media-unsupported",
+} as const;
