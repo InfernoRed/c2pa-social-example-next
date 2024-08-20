@@ -49,6 +49,27 @@ export default async function FilePage({ params }: Params) {
   const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
 
   console.info("PAGE: RESPONSE RECEIVED");
+
+  const contentType = response.headers.get("Content-Type");
+
+  if (contentType && contentType.includes("application/json")) {
+    try {
+      const file = await response.json();
+      console.log("Parsed JSON:", file);
+    } catch (error) {
+      console.error("Failed to parse JSON:", error);
+    }
+  } else if (contentType && contentType.includes("text/html")) {
+    try {
+      const htmlContent = await response.text();
+      console.log("HTML Content:", htmlContent);
+    } catch (error) {
+      console.error("Failed to retrieve HTML content:", error);
+    }
+  } else {
+    console.error("Unexpected content type:", contentType);
+  }
+
   const file = await response.json();
   if (!file) {
     return notFound();
