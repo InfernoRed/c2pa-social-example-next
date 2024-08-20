@@ -8,9 +8,8 @@ import CAIPopover from "@/components/CAIPopover";
 import CAISummary from "@/components/CAISummary";
 import CopyLinkButton from "@/components/CopyLinkButton";
 import { getManifestStore } from "@/services/manifest";
+import { getFile } from "@/services/file";
 import getMetadata from "@/utils/getMetadata";
-import isSupportedFileType from "@/utils/isSupportedFileType";
-import { errorCauses } from "@/app/lib/definitions";
 
 interface Params {
   params: {
@@ -18,24 +17,8 @@ interface Params {
   };
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  : process.env.NEXT_PUBLIC_BASE_URL;
-
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
-
-  const file = await response.json();
-
-  if (!file || file.error) {
-    return notFound();
-  }
-
-  if (!isSupportedFileType(file.mimeType)) {
-    throw new Error("Unsupported file type", {
-      cause: errorCauses.MEDIA_UNSUPPORTED,
-    });
-  }
+  const file = await getFile(params.id);
 
   const manifestStore = await getManifestStore(
     file.webContentLink,
@@ -46,18 +29,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function FilePage({ params }: Params) {
-  const response = await fetch(`${BASE_URL}/api/file/${params.id}`);
-
-  const file = await response.json();
-  if (!file) {
-    return notFound();
-  }
-
-  if (!isSupportedFileType(file.mimeType)) {
-    throw new Error("Unsupported file type", {
-      cause: errorCauses.MEDIA_UNSUPPORTED,
-    });
-  }
+  const file = await getFile(params.id);
 
   const manifestStore = await getManifestStore(
     file.webContentLink,

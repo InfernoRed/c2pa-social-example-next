@@ -27,7 +27,7 @@ export const sortOptions = ["name", "date"] as const;
 
 export type SortOption = (typeof sortOptions)[number];
 
-export const mimeTypeFilters = ["image", "video", "audio", "all"] as const;
+export const mimeTypeFilters = ["all", "image", "video", "audio"] as const;
 
 export type MimeTypeFilter = (typeof mimeTypeFilters)[number];
 
