@@ -10,11 +10,7 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  console.info(error);
-  const content =
-    error.cause === errorCauses.MEDIA_UNSUPPORTED
-      ? { code: 415, text: "Unsupported Media Type" }
-      : { code: 500, text: "Internal Server Error" };
+  const content = { code: 415, text: "Unsupported Media Type" };
   return (
     <div>
       <div className="min-h-screen flex flex-col justify-center items-center">
