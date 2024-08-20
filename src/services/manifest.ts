@@ -1,51 +1,29 @@
 import "server-only";
 
 import { ManifestStore } from "@contentauth/toolkit";
-import getBlob from "@/utils/getBlob";
 
 const apiUrl = process.env.CONTENT_INTEGRITY_API_URL;
 
 /**
  * Verify a manifest file
- * @param file File to verify
- * @param contentType Content type of the file
- * @returns Manifest Store or null
+ * @param url Url to file to verify
+ * @returns Manifest Store
  */
-const verifyManifest = async (
-  file: File | Blob,
-  contentType: string
+export const getManifestStoreByUrl = async (
+  url: string
 ): Promise<ManifestStore> => {
-  const response = await fetch(`${apiUrl}/verify`, {
-    method: "POST",
-    headers: {
-      "Content-Type": contentType,
-    },
-    body: file,
-  });
+  const queryParams = new URLSearchParams();
+  queryParams.append("url", url);
+  queryParams.append("raw", "true");
+  const response = await fetch(
+    `${apiUrl}/verify_file?${queryParams.toString()}`
+  );
 
   if (!response.ok) {
-    throw new Error(`Verify - ${response.status}`);
+    throw new Error(`Verify URL - ${response.status}`);
   }
 
   const manifestStore: ManifestStore = await response.json();
 
   return manifestStore;
-};
-
-/**
- * Get the manifest store for a specific media file
- * @param path Path to media file
- * @returns
- */
-export const getManifestStore = async (
-  path: string,
-  mimeType: string
-): Promise<ManifestStore | undefined> => {
-  try {
-    const blob = await getBlob(path);
-    return await verifyManifest(blob, mimeType);
-  } catch (error) {
-    console.error("Error:", error);
-    return undefined;
-  }
 };

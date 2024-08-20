@@ -2,12 +2,11 @@
 
 import type { Metadata } from "next";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 
 import CAIPopover from "@/components/CAIPopover";
 import CAISummary from "@/components/CAISummary";
 import CopyLinkButton from "@/components/CopyLinkButton";
-import { getManifestStore } from "@/services/manifest";
+import { getManifestStoreByUrl } from "@/services/manifest";
 import { getFile } from "@/services/file";
 import getMetadata from "@/utils/getMetadata";
 
@@ -19,22 +18,14 @@ interface Params {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const file = await getFile(params.id);
-
-  const manifestStore = await getManifestStore(
-    file.webContentLink,
-    file.mimeType
-  );
+  const manifestStore = await getManifestStoreByUrl(file.webContentLink);
 
   return getMetadata(manifestStore, file.thumbnailLink);
 }
 
 export default async function FilePage({ params }: Params) {
   const file = await getFile(params.id);
-
-  const manifestStore = await getManifestStore(
-    file.webContentLink,
-    file.mimeType
-  );
+  const manifestStore = await getManifestStoreByUrl(file.webContentLink);
 
   return (
     <main className="flex flex-col items-center p-24 gap-4">
