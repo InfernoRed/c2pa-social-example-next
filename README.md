@@ -18,8 +18,11 @@ An example application to show how [c2pa] could be shown in social platforms tha
 Add a `.env.local`
 
 ```bash
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
 # Content Integrity
 CONTENT_INTEGRITY_API_URL="YOUR API URL"
+CONTENT_INTEGRITY_MIME_TYPES="image/png,image/jpeg,video/mp4,audio/mpeg,audio/mp4,audio/x-m4a"
 
 # Google Drive
 GOOGLE_DRIVE_API_KEY="YOUR GOOGLE DRIVE API KEY";

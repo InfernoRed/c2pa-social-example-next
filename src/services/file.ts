@@ -3,7 +3,7 @@ import "server-only";
 import { notFound } from "next/navigation";
 
 import { errorCauses } from "@/app/lib/definitions";
-import isSupportedFileType from "@/utils/isSupportedFileType";
+import { isSupportedMimeType } from "@/utils/mimeTypes";
 
 const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
@@ -18,7 +18,7 @@ export async function getFile(id: string) {
     return notFound();
   }
 
-  if (!isSupportedFileType(file.mimeType)) {
+  if (!isSupportedMimeType(file.mimeType)) {
     throw new Error("Unsupported file type", {
       cause: errorCauses.MEDIA_UNSUPPORTED,
     });

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { drive } from "@googleapis/drive";
 
+import { MimeTypeFilter, SortOption } from "@/app/lib/definitions";
+import { getSupportedMimeTypes } from "@/utils/mimeTypes";
+
 const API_KEY = process.env.GOOGLE_DRIVE_API_KEY;
 const FOLDER_ID = process.env.GOOGLE_DRIVE_FOLDER_ID;
 
@@ -10,8 +13,10 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     // Extract query parameters
     const search = req.nextUrl.searchParams.get("search") || "";
-    const sort = req.nextUrl.searchParams.get("sort") || "name";
-    const filterMimeType = req.nextUrl.searchParams.get("filterMimeType") || "";
+    const sort = (req.nextUrl.searchParams.get("sort") as SortOption) || "name";
+    const filterMimeType =
+      (req.nextUrl.searchParams.get("filterMimeType") as MimeTypeFilter) ||
+      undefined;
 
     // Construct the query string for Google Drive API
     let query = `'${FOLDER_ID}' in parents and trashed = false`;
@@ -19,8 +24,13 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       query += ` and name contains '${search}'`;
     }
 
-    if (filterMimeType) {
-      query += ` and mimeType contains '${filterMimeType}/'`;
+    // Filter by MIME type
+    const validMimeTypes = getSupportedMimeTypes(filterMimeType);
+
+    if (validMimeTypes.length > 0) {
+      query += ` and (mimeType = '${validMimeTypes.join(
+        "' or mimeType = '"
+      )}')`;
     }
 
     // Sort by name or createdTime
