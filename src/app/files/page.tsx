@@ -10,6 +10,7 @@ import { mimeTypeFilters, sortOptions } from "../lib/definitions";
 
 export default function FilesPage() {
   const {
+    loading,
     searchTerm,
     handleSearch,
     filter,
@@ -44,7 +45,7 @@ export default function FilesPage() {
           className="border rounded p-2"
         />
       </div>
-      <FileList files={files} missingText="No files found" />
+      <FileList files={files} missingText="No files found" loading={loading} />
     </div>
   );
 }

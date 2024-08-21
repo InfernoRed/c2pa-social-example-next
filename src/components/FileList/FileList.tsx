@@ -4,9 +4,17 @@ import FileListItem from "./FileListItem";
 export interface FileListProps {
   files: GoogleDriveFile[];
   missingText: string;
+  loading?: boolean;
 }
 
-export default function FileList({ files, missingText }: FileListProps) {
+export default function FileList({
+  files,
+  missingText,
+  loading,
+}: FileListProps) {
+  if (loading) {
+    return <p className="text-center text-gray-500">Loading...</p>;
+  }
   return (
     <div>
       {files.length === 0 ? (
