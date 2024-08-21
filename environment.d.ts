@@ -8,6 +8,7 @@ declare global {
 
       // Content Integrity
       CONTENT_INTEGRITY_API_URL: string;
+      CONTENT_INTEGRITY_MIME_TYPES: string;
 
       // Google Drive
       GOOGLE_DRIVE_API_KEY: string; // https://console.cloud.google.com/
