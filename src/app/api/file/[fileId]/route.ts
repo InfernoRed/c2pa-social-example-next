@@ -16,7 +16,7 @@ export async function GET(
     const response = await googleDrive.files.get({
       fileId,
       fields:
-        "id, name, mimeType, webViewLink, webContentLink, thumbnailLink, size, createdTime, modifiedTime, description, owners",
+        "id, name, mimeType, webViewLink, webContentLink, thumbnailLink, size, createdTime, modifiedTime, description, owners, imageMediaMetadata",
     });
 
     if (response.status !== 200) {

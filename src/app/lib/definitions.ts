@@ -17,6 +17,11 @@ export type GoogleDriveFile = {
     permissionId: string;
     emailAddress: string;
   }>;
+  imageMediaMetadata: {
+    width: number;
+    height: number;
+    // Other fields not included
+  };
 };
 
 export type ErrorResponse = {

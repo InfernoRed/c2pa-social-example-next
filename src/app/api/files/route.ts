@@ -40,7 +40,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const response = await googleDrive.files.list({
       q: query,
       fields:
-        "files(id, name, mimeType, webViewLink, webContentLink, thumbnailLink, size, createdTime, modifiedTime, description, owners)",
+        "files(id, name, mimeType, webViewLink, webContentLink, thumbnailLink, size, createdTime, modifiedTime, description, owners, imageMediaMetadata)",
       orderBy,
     });
 

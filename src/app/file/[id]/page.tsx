@@ -1,9 +1,8 @@
 "use server";
 
 import type { Metadata } from "next";
-import Image from "next/image";
 
-import CAIPopover from "@/components/CAIPopover";
+import CAIContent from "@/components/CAIContent";
 import CAISummary from "@/components/CAISummary";
 import CopyLinkButton from "@/components/CopyLinkButton";
 import { getManifestStoreByUrl } from "@/services/manifest";
@@ -29,15 +28,7 @@ export default async function FilePage({ params }: Params) {
 
   return (
     <main className="flex flex-col items-center p-24 gap-4">
-      <CAIPopover className="h-96 w-96" manifestStore={manifestStore}>
-        <Image
-          priority
-          className="object-fit rounded-xl"
-          alt={file.alt}
-          src={file.webContentLink}
-          fill
-        />
-      </CAIPopover>
+      <CAIContent file={file} manifestStore={manifestStore} />
       <div className="flex flex-row items-center gap-2">
         <CopyLinkButton
           text={"Copy Link"}
