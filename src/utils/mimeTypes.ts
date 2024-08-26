@@ -1,6 +1,6 @@
 import { MimeTypeFilter } from "@/app/lib/definitions";
 
-const MIME_TYPES = process.env.CONTENT_INTEGRITY_MIME_TYPES.split(",") || [];
+const MIME_TYPES = process.env.CONTENT_INTEGRITY_MIME_TYPES?.split(",") || [];
 
 /**
  * Get all supported mime types based on the filter
@@ -21,3 +21,7 @@ export function getSupportedMimeTypes(typeFilter?: MimeTypeFilter): string[] {
 export function isSupportedMimeType(mimeType?: string): boolean {
   return !!mimeType && MIME_TYPES.includes(mimeType);
 }
+
+export const isImage = (mimeType: string) => mimeType.startsWith("image");
+export const isVideo = (mimeType: string) => mimeType.startsWith("video");
+export const isAudio = (mimeType: string) => mimeType.startsWith("audio");
