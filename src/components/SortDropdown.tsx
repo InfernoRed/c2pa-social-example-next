@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import { SortOption } from "@/app/lib/definitions";
 
 export type FilterDropdownProps = {
@@ -12,11 +14,13 @@ export default function SortDropdown({
   onSortChange,
   ...props
 }: FilterDropdownProps) {
+  const t = useTranslations();
+
   return (
     <select {...props} value={sort} onChange={onSortChange}>
       {options.map((option) => (
         <option key={option} value={option}>
-          {option}
+          {t(`SortDropdown.options.${option}`)}
         </option>
       ))}
     </select>

@@ -1,4 +1,5 @@
 import { GoogleDriveFile } from "@/app/lib/definitions";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 export type FileListItemProps = {
@@ -6,6 +7,8 @@ export type FileListItemProps = {
 };
 
 export default function FileListItem({ file }: FileListItemProps) {
+  const t = useTranslations();
+
   return (
     <li key={file.id} className="flex items-center border p-4 rounded">
       <div className="mr-4">
@@ -24,10 +27,14 @@ export default function FileListItem({ file }: FileListItemProps) {
           </a>
         </div>
         <div className="text-sm text-gray-600">
-          Created: {new Date(file.createdTime).toLocaleString()}
+          {t("FileList.createdDate", {
+            createdByDate: new Date(file.createdTime),
+          })}
         </div>
         <div className="text-sm text-gray-600">
-          Owner: {file.owners.map((owner) => owner.emailAddress).join(", ")}
+          {t("FileList.owner", {
+            owner: file.owners.map((owner) => owner.emailAddress).join(", "),
+          })}
         </div>
       </div>
     </li>

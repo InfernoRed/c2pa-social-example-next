@@ -1,14 +1,16 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
+import { mimeTypeFilters, sortOptions } from "@/app/lib/definitions";
 import { FileList } from "@/components/FileList";
 import FilterDropdown from "@/components/FilterDropdown";
 import SortDropdown from "@/components/SortDropdown";
 import SearchInput from "@/components/SearchInput";
 import useDriveList from "@/hooks/useDriveList";
 
-import { mimeTypeFilters, sortOptions } from "../lib/definitions";
-
 export default function FilesPage() {
+  const t = useTranslations();
   const {
     loading,
     searchTerm,
@@ -23,11 +25,11 @@ export default function FilesPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Files</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("FileListPage.heading")}</h1>
       {error && <p className="text-red-500">{error}</p>}
       <div className="flex items-center mb-4">
         <SearchInput
-          placeholder="Search files..."
+          placeholder={t("FileListPage.searchPlaceholder")}
           searchTerm={searchTerm}
           onSearchChange={handleSearch}
           className="border rounded p-2 flex-grow mr-2"
@@ -45,7 +47,7 @@ export default function FilesPage() {
           className="border rounded p-2"
         />
       </div>
-      <FileList files={files} missingText="No files found" loading={loading} />
+      <FileList files={files} loading={loading} />
     </div>
   );
 }

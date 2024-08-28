@@ -1,0 +1,76 @@
+{
+  "DefaultPage": {
+    "metadata": {
+      "title": "C2PA Social Example",
+      "description": "Example to showcase how to use C2PA with social media platforms."
+    }
+  },
+  "NotFoundPage": {
+    "metadata": {
+      "title": "Page Not Found",
+      "description": "Sorry, this page cannot be found."
+    },
+    "heading": "404",
+    "description": "Sorry, this page cannot be found.",
+    "homeLink": "Go back home"
+  },
+  "FileListPage": {
+    "heading": "Files",
+    "searchPlaceholder": "Search files…"
+  },
+  "FilePage": {
+    "copyLinkButton": "Copy Link",
+    "copyLinkButtonActive": "Copied!",
+    "verifyLink": "Verify"
+  },
+  "FileNotFoundPage": {
+    "metadata": {
+      "title": "❓ File Not Found",
+      "description": "Sorry, this file cannot be found."
+    },
+    "heading": "404",
+    "description": "Sorry, this file cannot be found.",
+    "homeLink": "Go back home"
+  },
+  "FileErrorPage": {
+    "errors": {
+      "415": {
+        "heading": "415",
+        "description": "Unsupported Media Type"
+      }
+    },
+    "homeLink": "Go back home"
+  },
+  "FilterDropdown": {
+    "filters": {
+      "all": "All",
+      "image": "Image",
+      "video": "Video",
+      "audio": "Audio"
+    }
+  },
+  "SortDropdown": {
+    "options": {
+      "date": "Date",
+      "name": "Name"
+    }
+  },
+  "FileList": {
+    "loading": "Loading…",
+    "missing": "No files found",
+    "createdDate": "Created: {createdByDate, date, full}",
+    "owner": "Owner: {owner}"
+  },
+  "verifyMetadata": {
+    "title": {
+      "unknown": "Untitled",
+      "missing": "❌ Uncertified",
+      "invalid": "⚠️ Invalid | {title}",
+      "verified": "✅ Certified | {title}"
+    },
+    "description": {
+      "missing": "No manifest store found",
+      "default": "Click to learn more about this content's credentials"
+    }
+  }
+}

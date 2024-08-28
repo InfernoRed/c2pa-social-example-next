@@ -1,24 +1,34 @@
-import type { Metadata } from "next";
 import { Arimo } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
+
 import "./globals.css";
 
 const arimo = Arimo({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "C2PA Social Example",
-  description:
-    "Example to showcase how to use C2PA with social media platforms",
-};
+export async function generateMetadata() {
+  const t = await getTranslations();
 
-export default function RootLayout({
+  return {
+    title: t("DefaultPage.metadata.title"),
+    description: t("DefaultPage.metadata.title"),
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body style={{ height: "100vh" }} className={arimo.className}>
-        {children}
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
