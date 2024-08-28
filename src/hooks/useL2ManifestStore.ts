@@ -7,8 +7,7 @@ import {
 import { useEffect, useState } from "react";
 
 export default function useL2ManifestStore(
-  manifestStore?: ManifestStore,
-  logsEnabled?: boolean
+  manifestStore?: ManifestStore
 ): L2ManifestStore | undefined {
   const [l2ManifestStore, setL2ManifestStore] = useState<
     L2ManifestStore | undefined
@@ -16,18 +15,10 @@ export default function useL2ManifestStore(
 
   useEffect(() => {
     const convertManifest = async (store: ManifestStore) => {
-      logsEnabled &&
-        console.info("ManifestStore from @content-auth/toolkit", store);
-
       const c2paManifestStore = createManifestStore(store);
-      logsEnabled &&
-        console.info("ManifestStore from c2pa-js", c2paManifestStore);
-
       const l2ManifestStore = await createL2ManifestStore(c2paManifestStore);
       if (l2ManifestStore) {
         const { manifestStore } = l2ManifestStore;
-        logsEnabled &&
-          console.info("L2ManifestStore from c2pa-js", manifestStore);
         setL2ManifestStore(manifestStore);
         l2ManifestStore.dispose();
       }
@@ -36,7 +27,7 @@ export default function useL2ManifestStore(
     if (manifestStore) {
       convertManifest(manifestStore);
     }
-  }, [manifestStore, logsEnabled]);
+  }, [manifestStore]);
 
   return l2ManifestStore;
 }

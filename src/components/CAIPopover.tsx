@@ -25,9 +25,7 @@ export default function CAIPopover({
   disablePopover,
 }: CAIPopoverProps) {
   useWebComponents();
-  const enableManifestLogs =
-    process.env.NEXT_PUBLIC_ENABLE_MANIFEST_LOGS === "true";
-  const l2ManifestStore = useL2ManifestStore(manifestStore, enableManifestLogs);
+  const l2ManifestStore = useL2ManifestStore(manifestStore);
   const summaryRef = useCAISummaryRef(l2ManifestStore);
 
   return (
