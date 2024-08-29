@@ -18,7 +18,10 @@ interface Params {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const file = await getFile(params.id);
-  const manifestStore = await getManifestStoreByUrl(file.webContentLink);
+  const manifestStore = await getManifestStoreByUrl(
+    file.webContentLink,
+    file.mimeType
+  );
 
   return await getMetadata(manifestStore, file.thumbnailLink);
 }
@@ -26,7 +29,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function FilePage({ params }: Params) {
   const t = await getTranslations();
   const file = await getFile(params.id);
-  const manifestStore = await getManifestStoreByUrl(file.webContentLink);
+  const manifestStore = await getManifestStoreByUrl(
+    file.webContentLink,
+    file.mimeType
+  );
 
   return (
     <main className="flex flex-col items-center p-24 gap-4">
@@ -37,13 +43,16 @@ export default async function FilePage({ params }: Params) {
           copiedText={t("FilePage.copyLinkButtonActive")}
           className="font-semibold border border-b-gray-300 min-w-[100px] gray-900 px-2 py-1 rounded-lg"
         />
-        <a
-          href={`https://contentintegrity.microsoft.com/check?source=${file.webContentLink}`}
-          className="font-semibold border text-center border-b-gray-300 min-w-[100px] gray-900 px-2 py-1 rounded-lg"
-        >
-          {t("FilePage.verifyLink")}
-        </a>
+        {manifestStore && (
+          <a
+            href={`https://contentintegrity.microsoft.com/check?source=${file.webContentLink}`}
+            className="font-semibold border text-center border-b-gray-300 min-w-[100px] gray-900 px-2 py-1 rounded-lg"
+          >
+            {t("FilePage.verifyLink")}
+          </a>
+        )}
       </div>
+
       <CAISummary
         manifestStore={manifestStore}
         className="border border-b-gray-300 rounded-xl"

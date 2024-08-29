@@ -37,6 +37,10 @@
       "415": {
         "heading": "415",
         "description": "Unsupported Media Type"
+      },
+      "400": {
+        "heading": "400",
+        "description": "Bad Request"
       }
     },
     "homeLink": "Go back home"
