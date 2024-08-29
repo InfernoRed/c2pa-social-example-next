@@ -4,6 +4,7 @@ import {
   ValidationStatus,
 } from "@contentauth/toolkit";
 import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
 /**
  *
@@ -11,22 +12,23 @@ import { Metadata } from "next";
  * @param title
  * @returns
  */
-const getTitle = (
+const getTitle = async (
   manifest?: Manifest,
   validationStatus?: ValidationStatus[]
 ) => {
-  const title = manifest?.title || "Untitled";
+  const t = await getTranslations();
+  const title = manifest?.title || t("verifyMetadata.title.unknown");
 
   if (!manifest) {
-    return "❌ Uncertified";
+    return t("verifyMetadata.title.missing");
   }
 
   // Oversimplified for demonstration purposes
   if (validationStatus && validationStatus.length > 0) {
-    return `⚠️ Invalid | ${title}`;
+    return t("verifyMetadata.title.invalid", { title });
   }
 
-  return `✅ Verified | ${title}`;
+  return t("verifyMetadata.title.verified", { title });
 };
 
 /**
@@ -34,11 +36,12 @@ const getTitle = (
  * @param manifest
  * @returns Description
  */
-export const getDescription = (manifest?: Manifest): string => {
+export const getDescription = async (manifest?: Manifest) => {
+  const t = await getTranslations();
   if (!manifest) {
-    return "No manifest store found";
+    return t("verifyMetadata.description.missing");
   }
-  return "Click to learn more about this content's credentials";
+  return t("verifyMetadata.description.default");
 };
 
 /**
@@ -53,15 +56,15 @@ const getAuthors = (
   return issuerName ? [{ name: issuerName }] : [];
 };
 
-export default function getMetaData(
+export default async function getMetaData(
   manifestStore?: ManifestStore,
   thumbnail?: string | URL
-): Metadata {
+): Promise<Metadata> {
   const manifest = manifestStore?.manifests[manifestStore?.active_manifest];
   const validationStatus = manifestStore?.validation_status;
 
-  const title = getTitle(manifest, validationStatus);
-  const description = getDescription(manifest);
+  const title = await getTitle(manifest, validationStatus);
+  const description = await getDescription(manifest);
   const authors = getAuthors(manifest);
 
   return {

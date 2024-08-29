@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import { MimeTypeFilter } from "@/app/lib/definitions";
 
 export type FilterDropdownProps = {
@@ -12,11 +14,13 @@ export default function FilterDropdown({
   onFilterChange,
   ...props
 }: FilterDropdownProps) {
+  const t = useTranslations();
+
   return (
     <select {...props} value={filter} onChange={onFilterChange}>
       {filters.map((filter) => (
         <option key={filter} value={filter}>
-          {filter}
+          {t(`FilterDropdown.filters.${filter}`)}
         </option>
       ))}
     </select>
